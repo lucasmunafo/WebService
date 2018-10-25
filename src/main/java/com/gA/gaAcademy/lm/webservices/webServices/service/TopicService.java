@@ -1,8 +1,6 @@
 package com.gA.gaAcademy.lm.webservices.webServices.service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,8 +25,8 @@ public class TopicService {
 	}
 	
 	
-	public Optional<Topic> getTopics(int id) {
-		return topicRepository.findById(id);
+	public Topic getTopicById(int id) {
+		return topicRepository.findById(id).get();
 	}
 	
 	
@@ -40,9 +38,22 @@ public class TopicService {
 
 
 	public Reply createReply(int id,Reply inputReply) {
-		Optional<Topic> t = topicRepository.findById(id);
-		Reply r = replyRepository.save(inputReply);
-		return null;
+		Topic t = getTopicById(id);
+		int idForReply = t.getId();
+		inputReply.setParentId(idForReply);
+		return replyRepository.save(inputReply);	
+	}
+
+
+	public Topic updateTopic(int id, Topic updatedTopic) {
+		Topic oldTopic =  getTopicById(id);
+		if(updatedTopic.getAuthor()>0)
+			oldTopic.setAuthor(updatedTopic.getAuthor());
+		if(updatedTopic.getTitle()!=null) 
+			oldTopic.setTitle(updatedTopic.getTitle());
+		if(updatedTopic.getDescription()!=null)
+			oldTopic.setDescription(updatedTopic.getDescription());
+		return createTopic(oldTopic);
 	}
 	
 

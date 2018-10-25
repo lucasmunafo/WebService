@@ -16,6 +16,9 @@ public class Reply {
 	@Id
 	@GeneratedValue
 	private int idReply;
+
+	@Column(name ="title")
+	private String title;
 	
 	@Column(name ="datePost")
 	private Date datePost;
@@ -26,16 +29,22 @@ public class Reply {
 	@Column(name ="author")
 	private String author;
 	
+	@Column(name ="parentId")
+	private int parentId;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "replyId", referencedColumnName="id")
 	private Topic topic;
 	
 	
+	
+	
 	public Reply() {}
 
 
-	public Reply(Date datePost, String description, String author) {
+	public Reply(Date datePost, String description, String author, String title) {
 		super();
+		this.title = title;
 		this.datePost = datePost;
 		this.description = description;
 		this.author = author;
@@ -80,6 +89,27 @@ public class Reply {
 	public Topic getTopic() {
 		return topic;
 	}
+
+
+	public int getParentId() {
+		return parentId;
+	}
+
+
+	public void setParentId(int parentId) {
+		this.parentId = parentId;
+	}
+
+
+	public String getTitle() {
+		return title;
+	}
+
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
 	
 	
 	

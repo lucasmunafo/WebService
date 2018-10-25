@@ -27,13 +27,13 @@ public class Topic {
 	private String description;
 	
 	@Column(name ="author")
-	private String author;
+	private int author;
 	
 	
 	
 	public Topic() {}
 
-	public Topic(String title, Date datePost, String description, String author) {
+	public Topic(String title, Date datePost, String description, int author) {
 		super();
 		this.title = title;
 		this.datePost = datePost;
@@ -65,11 +65,11 @@ public class Topic {
 		this.description = description;
 	}
 
-	public String getAuthor() {
+	public int getAuthor() {
 		return author;
 	}
 
-	public void setAuthor(String author) {
+	public void setAuthor(int author) {
 		this.author = author;
 	}
 
