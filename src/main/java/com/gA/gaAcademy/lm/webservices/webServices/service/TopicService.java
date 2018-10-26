@@ -41,6 +41,7 @@ public class TopicService {
 		Topic t = getTopicById(id);
 		int idForReply = t.getId();
 		inputReply.setParentId(idForReply);
+		//t.addReply(inputReply);
 		return replyRepository.save(inputReply);	
 	}
 
@@ -54,6 +55,24 @@ public class TopicService {
 		if(updatedTopic.getDescription()!=null)
 			oldTopic.setDescription(updatedTopic.getDescription());
 		return createTopic(oldTopic);
+	}
+
+
+	public int deleteFisicTopic(int id) {
+		topicRepository.deleteById(id);
+		return id;
+	}
+
+
+	public int deleteLogicTopic(int id) {
+		int toReturn = 0;
+		Topic t = topicRepository.findById(id).get();
+		if (!t.isDeleted()) {
+			t.delete();
+			toReturn = t.getId();
+			topicRepository.save(t);
+		}
+			return toReturn;
 	}
 	
 

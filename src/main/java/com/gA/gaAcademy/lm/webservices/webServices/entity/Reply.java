@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+
 @Entity
 public class Reply {
 
@@ -33,7 +34,7 @@ public class Reply {
 	private int parentId;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "replyId", referencedColumnName="id")
+	@JoinColumn(name = "topicId", nullable = false)
 	private Topic topic;
 	
 	
