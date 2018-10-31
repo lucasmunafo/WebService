@@ -1,0 +1,50 @@
+post id: id del post
+parent id: vinculacion con el post (para el comentario)
+author id: quien lo posteo
+
+------------
+
+base de datos relacional
+
+------------
+
+localhost 8080
+
+------------
+
+entra el llamoado->
+
+convierte el llamado para que spring lo entienda(Json)->
+
+la calse controlador va a ser la que se encarga de los llamados (le llega un objeto java con todos los datos del json)->
+
+servicio se va a encargar de obtener los datos que vienen del controller prepara el objeto-> para guardarlo en el repositorio (para el put)
+
+-------------
+
+las anotaciones funcionan como modulos, cada anotacion tiene configuraciones
+
+-------------
+
+autowired: spring automaticamente crea la clase(sin la necesidad de hacer un new para el objeto) y nos deja guardada como un bean(es el objeto en memoria). Va sobre el objeto.
+
+-------------
+
+Los contructores siempre tienen que estar vacios
+
+-------------
+
+Get, Post
+
+http://localhost:8080/topic
+
+
+Get un solo topic
+http://localhost:8080/topic/{id}
+
+http://localhost:8080/topic/53
+
+
+--------------
+
+@RequiestBody= para capturar lo que viene en el body en el Json
