@@ -1,6 +1,8 @@
 package com.gA.gaAcademy.lm.webservices.webServices.service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ public class TopicService {
 	@Autowired
 	ReplyRepository replyRepository;
 	
+	
 	public Topic createTopic(Topic inputTopic) {
 		Topic t = topicRepository.save(inputTopic);
 		return t;
@@ -36,15 +39,40 @@ public class TopicService {
 		return t;
 	}
 
-
+//REPLY
+	
+	
+	
 	public Reply createReply(int id,Reply inputReply) {
-		Topic t = getTopicById(id);
-		int idForReply = t.getId();
-		inputReply.setParentId(idForReply);
+		//Topic t = getTopicById(id);
+		//int idForReply = t.getId();
+		//inputReply.setParentId(idForReply);
 		//t.addReply(inputReply);
+		inputReply.setDatePost(new Date());
 		return replyRepository.save(inputReply);	
 	}
+	public List<Reply> getReplies(int id){
+		return topicRepository.findById(id).get().getReplyList();
+	}
+	
+	public Topic getReplys(int id) throws NoSuchElementException{
+		return replyRepository.findByTopic(topicRepository.findById(id).get()).get();
+	}
 
+	public void deleteAllReplies(int id) {
+		Topic t = topicRepository.findById(id).get();
+		t.deleteListOfReplies();
+		topicRepository.save(t);
+	}
+	
+	public Reply updateReplyById(int id, Reply reply) throws NoSuchElementException{
+		Reply toUpdate = replyRepository.findById(id).get();
+		if(reply.getDescription()!= null) {
+			toUpdate.setDescription(reply.getDescription());
+		}
+		replyRepository.save(toUpdate);
+		return toUpdate;
+	}
 
 	public Topic updateTopic(int id, Topic updatedTopic) {
 		Topic oldTopic =  getTopicById(id);

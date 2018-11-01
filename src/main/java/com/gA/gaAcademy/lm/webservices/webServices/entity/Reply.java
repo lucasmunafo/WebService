@@ -2,10 +2,11 @@ package com.gA.gaAcademy.lm.webservices.webServices.entity;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -15,7 +16,7 @@ import javax.persistence.ManyToOne;
 public class Reply {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private int idReply;
 
 	@Column(name ="title")
@@ -33,8 +34,8 @@ public class Reply {
 	@Column(name ="parentId")
 	private int parentId;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "topicId", nullable = false)
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "topic", nullable = false)
 	private Topic topic;
 	
 	
@@ -43,12 +44,13 @@ public class Reply {
 	public Reply() {}
 
 
-	public Reply(Date datePost, String description, String author, String title) {
+	public Reply(Date datePost, String description, String author, String title, Topic topic) {
 		super();
 		this.title = title;
 		this.datePost = datePost;
 		this.description = description;
 		this.author = author;
+		this.topic = topic;
 	}
 
 
@@ -89,6 +91,12 @@ public class Reply {
 
 	public Topic getTopic() {
 		return topic;
+	}
+	
+
+
+	public void setTopic(Topic topic) {
+		this.topic = topic;
 	}
 
 

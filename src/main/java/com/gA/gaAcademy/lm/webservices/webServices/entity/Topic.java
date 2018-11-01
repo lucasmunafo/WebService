@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
@@ -18,7 +19,7 @@ import org.springframework.data.annotation.CreatedDate;
 public class Topic {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
 	@Column(name ="title")
@@ -37,8 +38,13 @@ public class Topic {
 	@Column(name = "deleted")
 	private boolean deleted;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "topic")
+	@OneToMany(cascade = CascadeType.ALL/*tiene todos permisos para los hijos*/
+			, fetch = FetchType.LAZY /*te da el listado de todos los datos*/
+			, mappedBy = "topic"/*mismo nombre que en el reply manytoone*/, 
+			orphanRemoval = true/*si borran topic los reply quedan*/)
 	private List<Reply> replyList = new ArrayList<Reply>();
+	
+	
 	
 	
 	public Topic() {}
@@ -111,6 +117,11 @@ public class Topic {
 	
 	public void addReply(Reply reply) {
 		replyList.add(reply);
+	}
+
+	public void deleteListOfReplies() {
+		this.replyList.clear();
+		
 	}
 	
 	
